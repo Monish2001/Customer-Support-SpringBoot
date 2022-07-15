@@ -33,15 +33,9 @@ public class AgentController {
 //        return "Deleted Successfully";
     }
 
-//    @PutMapping("/agents/{id}")
     @PutMapping("/agents")
-
-//    public Agent updateAgent(@RequestBody Agent agent,
-//                     @PathVariable("id") Integer agentId)
     public Agent updateAgent(@RequestBody Agent agent)
     {
-//        return agentService.updateAgent(
-//                agent, agentId);
         return agentService.updateAgent(
                 agent);
     }

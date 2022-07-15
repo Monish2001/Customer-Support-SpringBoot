@@ -1,0 +1,39 @@
+package com.example.CustomerSupport.service;
+
+import com.example.CustomerSupport.entity.Customer;
+import com.example.CustomerSupport.repository.CustomerRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class CustomerService {
+    @Autowired
+    private CustomerRepository customerRepository;
+
+
+    public Customer saveCustomer(Customer customer)
+    {
+        return customerRepository.save(customer);
+    }
+    public List<Customer> fetchCustomerList()
+    {
+        return (List<Customer>)
+                customerRepository.findAll();
+    }
+    public Optional<Customer> findById(Integer id)
+    {
+        return customerRepository.findById(id);
+    }
+    public void deleteCustomerById(Integer customerId)
+    {
+        customerRepository.deleteById(customerId);
+    }
+    public Customer updateCustomer(Customer customer)
+    {
+        customerRepository.save(customer);
+        return customer;
+    }
+}

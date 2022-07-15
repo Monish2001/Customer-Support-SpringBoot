@@ -15,8 +15,8 @@ import javax.persistence.*;
 //@Builder
 
 // Class
-@Table(name="Agents")
-public class Agent {
+@Table(name="customers")
+public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

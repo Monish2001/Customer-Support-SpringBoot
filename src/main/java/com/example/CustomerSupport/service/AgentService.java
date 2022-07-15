@@ -29,10 +29,10 @@ public class AgentService {
 //        return null;
     }
 //    public Agent updateAgent(Agent agents, Integer agentId)
-    public Agent updateAgent(Agent agents)
+    public Agent updateAgent(Agent agent)
     {
-        agentRepository.save(agents);
-        return agents;
+        agentRepository.save(agent);
+        return agent;
     }
 
 }
