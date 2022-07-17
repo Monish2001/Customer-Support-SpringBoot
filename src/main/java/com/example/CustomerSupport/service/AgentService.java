@@ -12,8 +12,6 @@ import java.util.List;
 public class AgentService {
     @Autowired
     private AgentRepository agentRepository;
-
-
     public Agent saveAgent(Agent agent)
     {
         return agentRepository.save(agent);
@@ -26,9 +24,7 @@ public class AgentService {
     public void deleteAgentById(Integer agentId)
     {
         agentRepository.deleteById(agentId);
-//        return null;
     }
-//    public Agent updateAgent(Agent agents, Integer agentId)
     public Agent updateAgent(Agent agent)
     {
         agentRepository.save(agent);

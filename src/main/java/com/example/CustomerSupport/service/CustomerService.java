@@ -23,9 +23,9 @@ public class CustomerService {
         return (List<Customer>)
                 customerRepository.findAll();
     }
-    public Optional<Customer> findById(Integer id)
+    public Customer findById(Integer id)
     {
-        return customerRepository.findById(id);
+        return customerRepository.findById(id).get();
     }
     public void deleteCustomerById(Integer customerId)
     {

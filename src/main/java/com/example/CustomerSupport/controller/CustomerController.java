@@ -28,7 +28,7 @@ public class CustomerController {
     }
 
     @GetMapping("/customers/{id}")
-    public Optional<Customer> findById(@PathVariable("id") Integer customerId)
+    public Customer findById(@PathVariable("id") Integer customerId)
     {
         return customerService.findById(customerId);
     }
