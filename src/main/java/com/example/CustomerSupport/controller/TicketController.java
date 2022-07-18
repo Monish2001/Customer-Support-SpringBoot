@@ -1,15 +1,11 @@
 package com.example.CustomerSupport.controller;
 import com.example.CustomerSupport.constants.DBConstants;
 import com.example.CustomerSupport.entity.Ticket;
-import com.example.CustomerSupport.helper.DateHelper;
 import com.example.CustomerSupport.service.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 public class TicketController {
@@ -20,7 +16,7 @@ public class TicketController {
     public Ticket saveTicket(
             @RequestBody Ticket ticket)
     {
-        return ticketService.saveTicket(ticket);
+        return ticketService.createTicket(ticket);
     }
 
     @GetMapping("/tickets")

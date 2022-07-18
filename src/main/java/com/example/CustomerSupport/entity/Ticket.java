@@ -1,8 +1,6 @@
 package com.example.CustomerSupport.entity;
 
 import com.example.CustomerSupport.constants.DBConstants;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -27,6 +25,9 @@ public class Ticket {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "updated_at")
     private Date updatedAt;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "status_updated_at")
+    private Date statusUpdatedAt;
 
     public Integer getId() {
         return id;
@@ -74,6 +75,14 @@ public class Ticket {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public Date getStatusUpdatedAt() {
+        return statusUpdatedAt;
+    }
+
+    public void setStatusUpdatedAt(Date statusUpdatedAt) {
+        this.statusUpdatedAt = statusUpdatedAt;
     }
 
     public Integer getCustomerId() {

@@ -15,7 +15,7 @@ public class AgentController {
     public Agent saveAgent(
             @RequestBody Agent agent)
     {
-        return agentService.saveAgent(agent);
+        return agentService.createAgent(agent);
     }
 
     @GetMapping("/agents")

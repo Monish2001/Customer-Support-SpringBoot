@@ -16,7 +16,7 @@ public class CustomerController {
     public Customer saveCustomer(
             @RequestBody Customer customer)
     {
-        return customerService.saveCustomer(customer);
+        return customerService.createCustomer(customer);
     }
 
     @GetMapping("/customers")
