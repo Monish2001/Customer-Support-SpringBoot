@@ -1,20 +1,9 @@
 package com.example.CustomerSupport.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
 
-// Annotations
 @Entity
-//@Data
-//@NoArgsConstructor
-//@AllArgsConstructor
-//@Builder
 
-// Class
 @Table(name="customers")
 public class Customer {
 

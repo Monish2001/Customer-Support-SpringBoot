@@ -1,7 +1,6 @@
 package com.example.CustomerSupport.entity;
 
 import com.example.CustomerSupport.constants.DBConstants;
-import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -9,13 +8,6 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-
-// Class
 @Table(name="tickets")
 public class Ticket {
     @Id
@@ -29,13 +21,9 @@ public class Ticket {
     private Integer customerId;
     @Column(name = "agent_id")
     private Integer agentId;
-
-    @CreatedDate
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_at")
     private Date createdAt;
-
-    @LastModifiedDate
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "updated_at")
     private Date updatedAt;

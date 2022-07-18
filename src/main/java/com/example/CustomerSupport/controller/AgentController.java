@@ -30,7 +30,6 @@ public class AgentController {
     {
         agentService.deleteAgentById(
                 agentId);
-//        return "Deleted Successfully";
     }
 
     @PutMapping("/agents")

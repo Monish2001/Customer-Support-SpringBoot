@@ -18,8 +18,7 @@ public class AgentService {
     }
     public List<Agent> fetchAgentList()
     {
-        return (List<Agent>)
-                agentRepository.findAll();
+        return agentRepository.findAll();
     }
     public void deleteAgentById(Integer agentId)
     {

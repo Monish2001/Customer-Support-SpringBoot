@@ -1,13 +1,11 @@
 package com.example.CustomerSupport.controller;
 
-import com.example.CustomerSupport.entity.Agent;
 import com.example.CustomerSupport.entity.Customer;
 import com.example.CustomerSupport.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 public class CustomerController {
@@ -39,7 +37,6 @@ public class CustomerController {
     {
         customerService.deleteCustomerById(
                 customerId);
-//        return "Deleted Successfully";
     }
 
     @PutMapping("/customers")

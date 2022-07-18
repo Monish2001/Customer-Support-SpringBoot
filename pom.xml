@@ -15,6 +15,12 @@
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>11</java.version>
+		<groupId>org.hibernate</groupId>
+		<artifactId>hibernate-core-jakarta</artifactId>
+		<version>5.6.5.Final</version>
+		<name>Hibernate ORM - hibernate-core-jakarta</name>
+		<description>Hibernate O/RM implementation of the Jakarta Persistence specification</description>
+		<url>https://hibernate.org/orm</url>
 	</properties>
 	<dependencies>
 		<dependency>

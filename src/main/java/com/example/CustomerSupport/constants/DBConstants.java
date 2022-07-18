@@ -5,6 +5,7 @@ public class DBConstants {
         ACTIVE,
         INITIATED,
         INACTIVE,
-        WRITTENOFF;
+        CLOSED,
+        RESOLVED;
     }
 }
