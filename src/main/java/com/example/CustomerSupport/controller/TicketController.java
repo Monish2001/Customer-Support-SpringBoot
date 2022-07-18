@@ -26,15 +26,7 @@ public class TicketController {
     @GetMapping("/tickets")
     public List<Ticket> fetchTicket(@RequestParam(value="customer_id",required = false) Integer customerId,@RequestParam(value="status",required = false) DBConstants.TicketStatus status)
     {
-        if(customerId!=null && status == null)
-        {
-            return ticketService.fetchTicketListByCustomerId(customerId);
-        } else if (status!=null && customerId == null) {
-            return ticketService.fetchTicketListByStatus(status);
-        } else if (customerId!=null && status!=null) {
-            return ticketService.fetchTicketListByCustomerIdAndStatus(customerId,status);
-        }
-        return ticketService.fetchTicketList();
+        return ticketService.fetchTicketListByCustomerIdAndStatus(customerId,status);
     }
 
     @GetMapping("/tickets/{id}")

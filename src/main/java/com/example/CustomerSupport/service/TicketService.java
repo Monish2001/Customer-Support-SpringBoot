@@ -32,21 +32,18 @@ public class TicketService {
         ticket.setUpdatedAt(DateHelper.getCurrentTimeStamp());
         return ticketRepository.save(ticket);
     }
-    public List<Ticket> fetchTicketList()
-    {
-        return ticketRepository.findAll();
-    }
-    public List<Ticket> fetchTicketListByCustomerId(Integer customerId)
-    {
-        return ticketRepository.findAllByCustomerId(customerId);
-    }
-    public List<Ticket> fetchTicketListByStatus(DBConstants.TicketStatus status)
-    {
-        return ticketRepository.findAllByStatus(status);
-    }
     public List<Ticket> fetchTicketListByCustomerIdAndStatus(Integer customerId, DBConstants.TicketStatus status)
     {
-        return ticketRepository.findAllByCustomerIdAndStatus(customerId,status);
+        if(customerId!=null && status == null)
+        {
+            return ticketRepository.findAllByCustomerId(customerId);
+        } else if (status!=null && customerId == null) {
+            return ticketRepository.findAllByStatus(status);
+        } else if (customerId!=null && status!=null) {
+            return ticketRepository.findAllByCustomerIdAndStatus(customerId,status);
+        } else{
+            return ticketRepository.findAll();
+        }
     }
     public List<Ticket> fetchTicketListByAgentId(Integer agentId)
     {
@@ -103,7 +100,7 @@ public class TicketService {
     }
     @Scheduled(fixedRate = SchedulerConstants.FIXED_RATE)
     public void resolveTicket() {
-        List<Ticket> ticketList = fetchTicketList();
+        List<Ticket> ticketList = fetchTicketListByCustomerIdAndStatus(null,null);
         if(ticketList.size()!=0)
         {
             for (Ticket ticket:
