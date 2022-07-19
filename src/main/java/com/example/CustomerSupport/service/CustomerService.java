@@ -13,24 +13,31 @@ public class CustomerService {
     private CustomerRepository customerRepository;
 
 
-    public Customer createCustomer(Customer customer)
+    public Customer create(Customer customer)
     {
         return customerRepository.save(customer);
     }
-    public List<Customer> fetchCustomerList()
+    public List<Customer> getCustomers()
     {
         return customerRepository.findAll();
     }
-    public Customer findById(Integer id)
+    public Customer getCustomer(Integer id)
     {
         return customerRepository.findById(id).get();
     }
-    public void deleteCustomerById(Integer customerId)
+    public void delete(Integer customerId)
     {
         customerRepository.deleteById(customerId);
     }
-    public Customer updateCustomer(Customer customer)
+    public Customer update(Customer customer)
     {
+        Customer dbCustomer = getCustomer(customer.getId());
+        if(customer.getEmail()==null){
+            customer.setEmail(dbCustomer.getEmail());
+        }
+        if(customer.getName()==null){
+            customer.setName(dbCustomer.getName());
+        }
         customerRepository.save(customer);
         return customer;
     }

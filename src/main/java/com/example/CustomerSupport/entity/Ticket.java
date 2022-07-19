@@ -15,10 +15,12 @@ public class Ticket {
     private String description;
     @Enumerated(EnumType.STRING)
     private DBConstants.TicketStatus status;
-    @Column(name = "customer_id")
-    private Integer customerId;
-    @Column(name = "agent_id")
-    private Integer agentId;
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
+    @ManyToOne
+    @JoinColumn(name = "agent_id")
+    private Agent agent;
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_at")
     private Date createdAt;
@@ -85,19 +87,19 @@ public class Ticket {
         this.statusUpdatedAt = statusUpdatedAt;
     }
 
-    public Integer getCustomerId() {
-        return customerId;
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public void setCustomerId(Integer customerId) {
-        this.customerId = customerId;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
-    public Integer getAgentId() {
-        return agentId;
+    public Agent getAgent() {
+        return agent;
     }
 
-    public void setAgentId(Integer agentId) {
-        this.agentId = agentId;
+    public void setAgent(Agent agent) {
+        this.agent = agent;
     }
 }

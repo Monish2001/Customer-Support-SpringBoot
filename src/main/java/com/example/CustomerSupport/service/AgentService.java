@@ -1,7 +1,6 @@
 package com.example.CustomerSupport.service;
 
 import com.example.CustomerSupport.entity.Agent;
-import com.example.CustomerSupport.entity.Ticket;
 import com.example.CustomerSupport.repository.AgentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,25 +11,25 @@ import java.util.List;
 public class AgentService {
     @Autowired
     private AgentRepository agentRepository;
-    public Agent createAgent(Agent agent)
+    public Agent create(Agent agent)
     {
         return agentRepository.save(agent);
     }
-    public List<Agent> fetchAgentList()
+    public List<Agent> getAgents()
     {
         return agentRepository.findAll();
     }
-    public Agent findById(Integer id)
+    public Agent getAgent(Integer id)
     {
         return agentRepository.findById(id).get();
     }
-    public void deleteAgentById(Integer agentId)
+    public void delete(Integer agentId)
     {
         agentRepository.deleteById(agentId);
     }
-    public Agent updateAgent(Agent agent)
+    public Agent update(Agent agent)
     {
-        Agent dbAgent = findById(agent.getId());
+        Agent dbAgent = getAgent(agent.getId());
         if(agent.getEmail()==null){
             agent.setEmail(dbAgent.getEmail());
         }
@@ -40,5 +39,4 @@ public class AgentService {
         agentRepository.save(agent);
         return agent;
     }
-
 }

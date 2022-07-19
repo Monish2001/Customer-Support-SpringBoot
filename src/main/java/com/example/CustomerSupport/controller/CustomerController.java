@@ -16,26 +16,26 @@ public class CustomerController {
     public Customer saveCustomer(
             @RequestBody Customer customer)
     {
-        return customerService.createCustomer(customer);
+        return customerService.create(customer);
     }
 
     @GetMapping("/customers")
     public List<Customer> fetchCustomerList()
     {
-        return customerService.fetchCustomerList();
+        return customerService.getCustomers();
     }
 
     @GetMapping("/customers/{id}")
     public Customer findById(@PathVariable("id") Integer customerId)
     {
-        return customerService.findById(customerId);
+        return customerService.getCustomer(customerId);
     }
 
     @DeleteMapping("/customers/{id}")
     public void deleteCustomerById(@PathVariable("id")
                                 Integer customerId)
     {
-        customerService.deleteCustomerById(
+        customerService.delete(
                 customerId);
     }
 
@@ -43,7 +43,7 @@ public class CustomerController {
 
     public Customer updateCustomer(@RequestBody Customer customer)
     {
-        return customerService.updateCustomer(
+        return customerService.update(
                 customer);
     }
 }

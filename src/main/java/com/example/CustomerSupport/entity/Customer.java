@@ -1,6 +1,7 @@
 package com.example.CustomerSupport.entity;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 

@@ -21,19 +21,21 @@ public class TicketService {
     private TicketRepository ticketRepository;
     @Autowired
     private AgentService agentService;
-    public Ticket createTicket(Ticket ticket)
+    public Ticket create(Ticket ticket)
     {
-        if(ticket.getAgentId()==null)
+        Agent agent = new Agent();
+        if(ticket.getAgent()==null)
         {
             Integer agentId = getAvailableAgent(); //rename to get available agent
-            ticket.setAgentId(agentId);
+            agent.setId(agentId);
+            ticket.setAgent(agent);
         }
         ticket.setCreatedAt(DateHelper.getCurrentTimeStamp());
         ticket.setUpdatedAt(DateHelper.getCurrentTimeStamp());
         ticket.setStatusUpdatedAt(DateHelper.getCurrentTimeStamp());
         return ticketRepository.save(ticket);
     }
-    public List<Ticket> fetchTicketListByCustomerIdAndStatus(Integer customerId, DBConstants.TicketStatus status)
+    public List<Ticket> getTickets(Integer customerId, DBConstants.TicketStatus status)
     {
         if(customerId!=null && status == null)
         {
@@ -45,13 +47,14 @@ public class TicketService {
         } else{
             return ticketRepository.findAll();
         }
+//        return ticketRepository.findAllByCustomerIdAndStatus(customerId,status);
     }
-    public List<Ticket> fetchTicketListByAgentId(Integer agentId)
+    public List<Ticket> getTicketsByAgentId(Integer agentId)
     {
         return ticketRepository.findAllByAgentId(agentId);
     }
 
-    public List<Ticket> fetchTicketListByAgentIdAndDate(Integer agentId)
+    private List<Ticket> getTicketListByAgentIdAndDate(Integer agentId)
     {
         Calendar day = Calendar.getInstance();
         day.set(Calendar.MILLISECOND, 0);
@@ -59,26 +62,29 @@ public class TicketService {
         day.set(Calendar.MINUTE, 0);
         day.set(Calendar.HOUR_OF_DAY, 0);
         Timestamp time = new Timestamp(day.getTimeInMillis());
-        return ticketRepository.findAllByAgentIdAndStatusUpdatedAtGreaterThan(agentId,time);
+        List<DBConstants.TicketStatus> statusList = new ArrayList<DBConstants.TicketStatus>();
+        statusList.add(DBConstants.TicketStatus.ACTIVE);
+        statusList.add(DBConstants.TicketStatus.INITIATED);
+        return ticketRepository.findAllByAgentIdAndStatusInAndStatusUpdatedAtGreaterThan(agentId,statusList,time);
     }
 
-    public Ticket findById(Integer id)
+    public Ticket getTicket(Integer id)
     {
         return ticketRepository.findById(id).get();
     }
-    public void deleteTicketById(Integer ticketId)
+    public void delete(Integer ticketId)
     {
         ticketRepository.deleteById(ticketId);
     }
-    public Ticket updateTicket(Ticket ticket)
+    public Ticket update(Ticket ticket)
     {
-        Ticket dbTicket = findById(ticket.getId());
+        Ticket dbTicket = getTicket(ticket.getId());
         if(ticket.getStatus()!=null && (!(ticket.getStatus().equals(dbTicket.getStatus()))))
         {
             ticket.setStatusUpdatedAt(DateHelper.getCurrentTimeStamp());
         }
-        if(ticket.getCustomerId()==null){
-            ticket.setCustomerId(dbTicket.getCustomerId());
+        if(ticket.getCustomer()==null){
+            ticket.setCustomer(dbTicket.getCustomer());
         }
         if(ticket.getDescription()==null){
             ticket.setDescription(dbTicket.getDescription());
@@ -89,8 +95,8 @@ public class TicketService {
         if(ticket.getCreatedAt()==null){
             ticket.setCreatedAt(dbTicket.getCreatedAt());
         }
-        if(ticket.getAgentId()==null){
-            ticket.setAgentId(dbTicket.getAgentId());
+        if(ticket.getAgent()==null){
+            ticket.setAgent(dbTicket.getAgent());
         }
         if(ticket.getStatus()==null){
             ticket.setStatus(dbTicket.getStatus());
@@ -99,44 +105,36 @@ public class TicketService {
         {
             ticket.setStatusUpdatedAt(dbTicket.getStatusUpdatedAt());
         }
-
         ticket.setUpdatedAt(DateHelper.getCurrentTimeStamp());
         ticketRepository.save(ticket);
         return ticket;
     }
 
-    public Integer getAvailableAgent()
+    private Integer getAvailableAgent()
     {
         Map<Integer,Integer> agentTicketCountMap=new HashMap<Integer,Integer>();
-        List<Agent> agentList = agentService.fetchAgentList();
+        List<Agent> agentList = agentService.getAgents();
         for (Agent agent:
              agentList) {
-            List<Ticket> agentTicketList = fetchTicketListByAgentIdAndDate(agent.getId());
+            List<Ticket> agentTicketList = getTicketListByAgentIdAndDate(agent.getId());
             if(agentTicketList.size()==0)
             {
                 return agent.getId();
             }
             agentTicketCountMap.put(agent.getId(),agentTicketList.size());
         }
-        int minimum_till_now = 999999999;
-        int minimum_key_till_now = 999999999;
-        for (Map.Entry<Integer,Integer> entry : agentTicketCountMap.entrySet()) {
-            if(entry.getValue() < minimum_till_now){
-                minimum_till_now = entry.getValue();
-                minimum_key_till_now = entry.getKey();
-            }
-        }
-        return minimum_key_till_now;
+        Integer key = Collections.min(agentTicketCountMap.entrySet(), Map.Entry.comparingByValue()).getKey();
+        return key;
     }
     @Scheduled(fixedRate = SchedulerConstants.FIXED_RATE)
-    public void resolveTicket() {
-        List<Ticket> ticketList = fetchTicketListByCustomerIdAndStatus(null,null);
+    private void resolveTicket() {
+        List<Ticket> ticketList = getTickets(null,null);
         for (Ticket ticket:
              ticketList) {
             if((ticket.getStatus().equals(DBConstants.TicketStatus.CLOSED)) && ((DateHelper.getCurrentTimeStamp().getTime()- ticket.getStatusUpdatedAt().getTime()) >= MILLISECONDS.convert(2, MINUTES)))
             {
                 ticket.setStatus(DBConstants.TicketStatus.RESOLVED);
-                updateTicket(ticket);
+                update(ticket);
             }
         }
     }

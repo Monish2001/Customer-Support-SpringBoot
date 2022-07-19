@@ -15,27 +15,27 @@ public class AgentController {
     public Agent saveAgent(
             @RequestBody Agent agent)
     {
-        return agentService.createAgent(agent);
+        return agentService.create(agent);
     }
 
     @GetMapping("/agents")
     public List<Agent> fetchAgentList()
     {
-        return agentService.fetchAgentList();
+        return agentService.getAgents();
     }
 
     @DeleteMapping("/agents/{id}")
     public void deleteAgentById(@PathVariable("id")
                                        Integer agentId)
     {
-        agentService.deleteAgentById(
+        agentService.delete(
                 agentId);
     }
 
     @PutMapping("/agents")
     public Agent updateAgent(@RequestBody Agent agent)
     {
-        return agentService.updateAgent(
+        return agentService.update(
                 agent);
     }
 }

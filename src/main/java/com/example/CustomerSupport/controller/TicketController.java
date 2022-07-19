@@ -1,5 +1,7 @@
 package com.example.CustomerSupport.controller;
 import com.example.CustomerSupport.constants.DBConstants;
+import com.example.CustomerSupport.converter.TicketConverter;
+import com.example.CustomerSupport.dto.TicketDTO;
 import com.example.CustomerSupport.entity.Ticket;
 import com.example.CustomerSupport.service.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,37 +16,39 @@ public class TicketController {
 
     @PostMapping("/tickets")
     public Ticket saveTicket(
-            @RequestBody Ticket ticket)
+            @RequestBody TicketDTO ticketDTO)
     {
-        return ticketService.createTicket(ticket);
+        Ticket ticket = new TicketConverter().ticketDtoToTicket(ticketDTO);
+        return ticketService.create(ticket);
     }
 
     @GetMapping("/tickets")
     public List<Ticket> fetchTicket(@RequestParam(value="customer_id",required = false) Integer customerId,@RequestParam(value="status",required = false) DBConstants.TicketStatus status)
     {
-        return ticketService.fetchTicketListByCustomerIdAndStatus(customerId,status);
+//        System.out.println(customerId);
+//        System.out.println(status);
+        return ticketService.getTickets(customerId,status);
     }
 
     @GetMapping("/tickets/{id}")
     public Ticket findById(@PathVariable("id") Integer ticketId)
     {
-        return ticketService.findById(ticketId);
+        return ticketService.getTicket(ticketId);
     }
 
     @DeleteMapping("/tickets/{id}")
     public void deleteTicketById(@PathVariable("id")
                                    Integer ticketId)
     {
-        ticketService.deleteTicketById(
+        ticketService.delete(
                 ticketId);
     }
 
     @PutMapping("/tickets")
-    public Ticket updateTicket(@RequestBody Ticket ticket)
+    public Ticket updateTicket(@RequestBody TicketDTO ticketDTO)
     {
-        return ticketService.updateTicket(
+        Ticket ticket = new TicketConverter().ticketDtoToTicket(ticketDTO);
+        return ticketService.update(
                 ticket);
     }
-
-
 }
